@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaAlcalde.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">        
+        <b:container>
+            <div class="alert alert-primary" role="alert" style="margin-top: 100px; font-family: all;">
+                <center> <h3>Detalles de #{entrevistadoMangedBeans.entrevistado.nombre}</h3></center>                
+            </div>            
+            <h:form>                
+                <h:inputHidden value="#{entrevistadoMangedBeans.entrevistado.codigoUsuario.codigo}" id="idUserCod"></h:inputHidden>
+                <div style="width: 33%; display:inline-block;">
+                    <b:selectOneMenu label="Seleccione un cantón" id="cantonesLista" value="#{entrevistadoMangedBeans.entrevistado.codigoCanton}">
+                        <f:selectItem itemLabel="Seleccione un cantón" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{cantonesManagedBeans.listaCantones}" var="canton"
+                                       itemValue="#{canton}" itemLabel="#{canton.nombre}" />
+                        <f:ajax event="change" render="caserios" execute="cantonesLista"/>                    
+                    </b:selectOneMenu>    
+                </div>
+                <div style="width: 33%; display:inline-block;">
+                    <b:selectOneMenu id="caserios" label="Seleccione un caserío" value="#{entrevistadoMangedBeans.entrevistado.codigoCaserio}" >
+                        <f:selectItems value="#{entrevistadoMangedBeans.consultarPorCanton}" id="caseriosPorCanton" var="caserio"
+                                       itemValue="#{caserio}" itemLabel="#{caserio.nombre}" />                                                            
+                    </b:selectOneMenu>               
+                </div>
+                <div style="width: 33%; display:inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.codigoEntrevista}" placeholder="Codigo" label="Codigo Entrevista"></b:inputText>
+                </div>
+                <div style="width: 66%; display:inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.nombre}" label="Nombre Entrevistado" placeholder="Nombre Entrevistado"></b:inputText>
+                </div>
+                <div style="width: 33%; display:inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.telefono}" label="Teléfono" placeholder="Teléfono"></b:inputText>
+                </div>
+                <b:inputText value="#{entrevistadoMangedBeans.entrevistado.direccion}" label="Dirección" placeholder="Dirección"></b:inputText>
+                <div style="width: 33%; display:inline-block;">                
+                    <h:outputLabel for="fecha">Fecha de la entrevista</h:outputLabel><br/>            
+                    <p:datePicker id="fecha" value="#{entrevistadoMangedBeans.entrevistado.fecha}" required="true" requiredMessage="Formato de fecha no es valido" placeholder="Fecha de la entrevista"></p:datePicker><br/>
+                </div>
+                <div style="width: 33%; display:inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.dui}" label="DUI" placeholder="DUI"></b:inputText>
+                </div>
+                <div style="width: 33%; display:inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.nit}" label="NIT" placeholder="NIT"></b:inputText>
+                </div>
+                <div style="width: 49%; display:inline-block; height: 65px;">
+                    <b:label value="Estado Civil"></b:label>
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.entrevistado.codigoEstadoFamiliar}" required="true" requiredMessage="Seleccione un estado civil">
+                        <f:selectItem itemLabel="Seleccione un estado civil" noSelectionOption="true"></f:selectItem>                                                    
+                        <f:selectItems value="#{radioManagedBeans.listaEstadoFamiliar}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">                            
+                        </f:selectItems>
+                    </b:selectOneMenu>
+                </div>
+                <div style="width: 49%; display:inline-block; height: 65px;">
+                    <b:label value="Nivel de Educación"></b:label>
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.entrevistado.codigoNivelesEducacion}" required="true" requiredMessage="Seleccione un nivel de Educación">
+                        <f:selectItem itemLabel="Seleccione un nivel de educación" noSelectionOption="true"></f:selectItem>                                                    
+                        <f:selectItems value="#{radioManagedBeans.listaNivelesEducacion}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">                            
+                        </f:selectItems>
+                    </b:selectOneMenu>
+                </div>
+                <b:inputText value="#{entrevistadoMangedBeans.entrevistado.detallesInformacionEducativa}" label="Detalle información educativa" placeholder="Detalle información educativa"></b:inputText>
+                <div style="width: 60%; display:inline-block;">
+                    <b:selectOneMenu label="Profesión o Oficio" value="#{entrevistadoMangedBeans.entrevistado.codigoProfesionOficio}" required="true" requiredMessage="Seleccione una profesión o oficio">
+                        <f:selectItem itemLabel="Seleccione una profesión o oficio" noSelectionOption="true"></f:selectItem>                                                    
+                        <f:selectItems value="#{profesionOficioManagedBeans.listaProfesionOficio}" var="profesion"
+                                       itemValue="#{profesion}" itemLabel="#{profesion.nombre}" />
+                    </b:selectOneMenu>        
+                </div>
+
+                <div style="width: 39%; display:inline-block;">
+                    <a href="profesionOficio.xhtml" target="_blank"><b:button value="Agregar"></b:button>
+                    </a>
+                    <a href="">
+                        <b:commandButton value="Actualizar" action="#{entrevistadoMangedBeans.insert()}"></b:commandButton>                    
+                    </a>
+
+                </div>
+                <div style="width: 20%; display:inline-block;">
+                    <b:label value="¿Posee una discapacidad?"></b:label>
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.entrevistado.poseeDiscapacidadFisica}" required="true" requiredMessage="Seleccione una opción">
+                        <f:selectItem itemLabel="Seleccione una discapacidad" noSelectionOption="true"></f:selectItem>                                                    
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">                            
+                        </f:selectItems>
+                    </b:selectOneMenu>
+                </div>
+
+                <div style="width: 79%; display:inline-block; ">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.detalleDiscapacidadFisica}" placeholder="Detalles de discapacidad" label="Si la respuesta es Sí. Detalles de discapacidad"></b:inputText> 
+                </div>
+
+                <div style="width: 20%; display:inline-block;">                
+                    <b:label value="¿Recibe insumos agricolas?"></b:label>                    
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.entrevistado.recibeInsumoAgricolas}" required="true" requiredMessage="Seleccione una opción">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>                                                    
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">                            
+                        </f:selectItems>
+                    </b:selectOneMenu>
+
+
+                </div>
+                <div style="width: 79%; display:inline-block; ">
+                    <b:inputText value="#{entrevistadoMangedBeans.entrevistado.cantidadCultivan}" placeholder="Cantidad" label="¿Que cantidad cultivan?"></b:inputText> 
+
+                </div>
+                <div style="width: 79%; display:inline-block; ">
+                    <b:selectOneMenu label="Fuente de Ingresos Principal" value="#{entrevistadoMangedBeans.entrevistado.fuenteDeIngreso}" required="true" requiredMessage="Seleccione una fuente de Ingreso">
+                        <f:selectItem itemLabel="Seleccione una fuente de ingreso" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{fuentesDeIngresoManagerBeans.listaFuentesdeIngreso}" var="fuente"
+                                       itemValue="#{fuente}" itemLabel="#{fuente.nombre}" />
+                    </b:selectOneMenu>        
+                </div>            
+                <div style="width: 20%; display:inline-block; ">
+
+                </div>
+                <b:inputText value="#{entrevistadoMangedBeans.entrevistado.observaciones}" placeholder="Observaciones" label="Observaciones"></b:inputText>       
+
+            </h:form>
+        </b:container>
+        <b:container>            
+
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{entrevistadoMangedBeans.cargarDatosAgricolas()}"/>
+            </f:metadata>
+
+            <h:form style="margin-top: 100px;">
+                <h:outputLabel for="productosAgricolasCultivo" value="Productos Agricolas que cultivan" /><br></br>
+                <p:selectCheckboxMenu id="productosAgricolasCultivo" value="#{entrevistadoMangedBeans.stringfamiliasCultiva}" label="Cities" multiple="true"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width:450px">
+                    <f:selectItems value="#{productosAgricolasManagedBeans.listaProductosAgricolas}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista.codigo}"/>
+                </p:selectCheckboxMenu>
+
+
+            </h:form>
+
+            <h:form style="margin-top: 100px;">
+                <h:outputLabel for="integranteEnfermedad" value="Enfermedades que padece esta familia" /><br></br>
+                <p:selectCheckboxMenu id="integranteEnfermedad" value="#{entrevistadoMangedBeans.stringForEnfermedadesFamilia}" label="Cities" multiple="true"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width:450px">
+                    <f:selectItems value="#{enfermedadesCronicasMangedBeans.listar}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista.codigo}"/>
+                </p:selectCheckboxMenu>
+
+            </h:form>
+
+        </b:container>
+
+
+        <hr></hr>
+        <b:container>
+
+            <h:form class="formulario" id="fomulario">
+                <b:label value="Datos de la persona entrevistada: #{entrevistadoMangedBeans.entrevistado.nombre}"></b:label>
+                <br/>
+
+                #{entrevistadoMangedBeans.vivienda.codigoEntrevistado.setId(entrevistadoMangedBeans.entrevistado.id)}
+                <h:inputHidden value="#{entrevistadoMangedBeans.vivienda.codigoEntrevistado.id}"></h:inputHidden>
+                <br/>
+
+                <h:inputHidden value="#{entrevistadoMangedBeans.vivienda.codigoEntrevistado.id}" ></h:inputHidden>
+                <b:inputText value="#{entrevistadoMangedBeans.vivienda.nombreJefeDeHogar}" label="Nombre del jefe de Hogar" required="true" requiredMessage="Debe agregar un nombre de jefe de hogar"></b:inputText>
+                <div style="width: 49.5%; display: inline-block;">
+                    <b:selectOneMenu label="Material de Vivienda" value="#{entrevistadoMangedBeans.vivienda.codigoMaterial}" required="true" requiredMessage="Seleccione el material de la vivienda">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{materialViviendaManagedBeans.listaMaterialDeVivienda}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>     
+                </div>
+                <div style="width: 49.5%; display: inline-block;">
+                    <b:selectOneMenu label="Tipo de techo" value="#{entrevistadoMangedBeans.vivienda.codigoTecho}" required="true" requiredMessage="Seleccione el tipo de techo">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{techoManagedBeans.listaTipoTecho}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>     
+                </div>  
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="¿Tenencia de Vivienda?" value="#{entrevistadoMangedBeans.vivienda.codigoTenenciaDeVivienda}" required="true" requiredMessage="Seleccione la tenencia de vivienda">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{tenenciaViviendaManagedBeans.listaTenenciaVivienda}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>
+
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="Posee escrituras" value="#{entrevistadoMangedBeans.vivienda.poseeEscrituras}" required="true" requiredMessage="Defina si posee escrituras">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>     
+                </div>
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="Predio municipal" value="#{entrevistadoMangedBeans.vivienda.predioMunicipal}" required="true" requiredMessage="Defina predio municipal">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+
+                </div>
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="Registrada" value="#{entrevistadoMangedBeans.vivienda.registrada}" required="true" requiredMessage="Defina si la vivienda esta registrada">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>     
+                </div>
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="Posee cuartos" value="#{entrevistadoMangedBeans.vivienda.poseeCuartos}" required="true" requiredMessage="Defina si posee cuartos">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />
+                    </b:selectOneMenu>                 
+                </div>
+                <div style="width: 33%; display: inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.vivienda.cantidadCuartos}" label="¿Cuántos Cuartos tiene la vivienda?"></b:inputText>
+                </div>
+
+                <div style="width: 33%; display: inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.vivienda.cuartosDormitorio}" label="¿Cuántos son usados como dormitorio?"></b:inputText>
+                </div>
+
+                <div style="width: 19.5%; display: inline-block;">
+                    <b:selectOneMenu label="¿Vivienda construida por Children?" value="#{entrevistadoMangedBeans.vivienda.construidaPorChilden}" required="true" requiredMessage="¿La vivienda es construida por children?" class="viviendaPorChildren">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>
+                <div style="width: 19.5%; display: inline-block;">
+                    <b:selectOneMenu label="¿Techo dañado?" value="#{entrevistadoMangedBeans.vivienda.techoDanado}" class="danosVivienda" required="true" requiredMessage="¿El techo esta dañado?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>
+
+
+                <div style="width: 19.5%; display: inline-block;">
+                    <b:selectOneMenu label="¿Ventanas dañadas?" value="#{entrevistadoMangedBeans.vivienda.ventanasDanadas}" class="danosVivienda" required="true" requiredMessage="¿Las ventanas estan dañadas?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>
+                <div style="width: 19.5%; display: inline-block;">
+                    <b:selectOneMenu label="¿Puertas dañadas?" value="#{entrevistadoMangedBeans.vivienda.puertasDanadas}" class="danosVivienda" required="true" requiredMessage="¿Puertas dañadas?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>     
+                </div>
+                <div style="width: 19.5%; display: inline-block;">
+                    <b:selectOneMenu label="¿Paredes dañadas?" value="#{entrevistadoMangedBeans.vivienda.paredesDanadas}" class="danosVivienda" required="true" requiredMessage="¿Posee paredes dañadas?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="¿Agua Potable?" value="#{entrevistadoMangedBeans.vivienda.aguaPotable}" required="true" requiredMessage="¿Posee agua potable?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>     
+                </div>
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="¿Energía eléctrica?" value="#{entrevistadoMangedBeans.vivienda.energiaElectrica}" required="true" requiredMessage="¿Posee Energía eléctrica?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>                
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="¿Servicio de Aseo?" value="#{entrevistadoMangedBeans.vivienda.servicioAseo}" required="true" requiredMessage="¿Posee servicio de Aseo?">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu> 
+                </div>
+
+                <div style="width: 24%; display: inline-block;">
+                    <b:selectOneMenu label="¿Tipo de letrina?" value="#{entrevistadoMangedBeans.vivienda.codigoTipoLetrina}" required="true" requiredMessage="Seleccione un tipo de letrina">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{tipoLetrinaManagedBeans.listaTipoLetrina}" var="lista"
+                                       itemValue="#{lista}" itemLabel="#{lista.nombre}" />                
+                    </b:selectOneMenu>
+                </div>
+                <div style="width: 24%; display: inline-block;">           
+                    <b:inputText value="#{entrevistadoMangedBeans.vivienda.personasTrabajan}" label="¿Cuántas personas laboran en esta vivienda?"></b:inputText>
+                </div>
+
+                <div style="width: 24%; display: inline-block;">                
+                    <b:inputText value="#{entrevistadoMangedBeans.vivienda.personasAPEmpleo}" label="¿Cuántas personas estan aptas para el empleo?"></b:inputText>
+                </div>
+                <div style="width: 24%; display: inline-block;">                
+                    <b:inputText value="#{entrevistadoMangedBeans.vivienda.hogaresEnLaVivienda}" label="¿Cuántos Hogares hay en la vivienda?"></b:inputText>
+                </div>                
+            </h:form>
+
+            <hr></hr>
+            <h:form>
+                <center><h3>Necesidades de esta familia</h3></center>
+                <b:dataTable value="#{entrevistadoMangedBeans.listarNecesidadesPorFamilia}" var="lista">
+                    <b:dataTableColumn value="#{lista.codigoEntrevistado.nombre}" label="Nombre del entrevistado"></b:dataTableColumn>
+                    <b:dataTableColumn value="#{lista.codigoMaterialAyuda.nombre}" label="Nombre de la necesidad"></b:dataTableColumn>
+                    <b:dataTableColumn value="#{lista.cantidadPide}" label="Cantidad que solicita"></b:dataTableColumn>                                                  
+                </b:dataTable>
+            </h:form>
+            <hr></hr>
+            <b:form>
+                <center><h3>Integrantes</h3></center>
+                <b:container>
+                    <b:panel>
+                        <center><h4>Detalles:</h4></center>                        
+                        <b:form>
+                            <b:row>
+                                <b:column col-lg="6">
+                                    <center>Esta familia recibe en sus ingresos Mensuales:<br></br>
+                                        <b>$<h:outputText value="#{entrevistadoMangedBeans.consultarIngresosPorFamilia[0]}"></h:outputText> dolares.</b> 
+                                    </center>
+                                </b:column>
+                                <b:column col-lg="3">
+                                    <center>Mayores de Edad:<br></br>
+                                        <b>Hay <h:outputText value="#{entrevistadoMangedBeans.consultarMayoresDeEdad[0]}"></h:outputText> personas.</b> 
+                                    </center>
+                                </b:column>
+                                <b:column col-lg="3">
+                                    <center>Menores de edad:<br></br>
+                                        <b> hay <h:outputText value="#{entrevistadoMangedBeans.consultarMenoresDeEdad[0]}"></h:outputText> personas.</b> 
+                                    </center>
+                                </b:column>                               
+                            </b:row>
+
+                        </b:form>
+                    </b:panel>
+                </b:container>
+                <b:dataTable value="#{entrevistadoMangedBeans.consultarIntegrantesPorEntrevistado()}" var="lista">
+                    <b:dataTableColumn value="#{lista.nombre}"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.codigoEntrevistado.nombre}" label="Se entrevisto"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.parentesco.nombre}" label="Parentesco"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.edad}" label="Edad"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.sexo.nombre}" label="Sexo"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.nivelAcademico.nombre}" label="Nivel Academico"></b:dataTableColumn>  
+                    <b:dataTableColumn label="Enfermedades que padece">
+                        <b:dataTable value="#{entrevistadoMangedBeans.getListarEnfermedadesPorIntegrante(lista)}" paginated="false"  var="enfermedades">
+                            <b:dataTableColumn value="#{enfermedades.discapacidadEnfermedad.nombre}" label="Enfermedades que padece"></b:dataTableColumn>
+
+                        </b:dataTable>
+
+                    </b:dataTableColumn>                
+                    <b:dataTableColumn value="#{lista.desertoDelEstudio.nombre}" label="Deserto del Estudio"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.detalleDePDeserto}" label="Deserto porque"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.gustariaSeguirEstudiando.nombre}" label="Gustaria seguir estudiando"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.sePuedeDesempenar.nombre}" label="Se puede desempeñar"></b:dataTableColumn>    
+                    <b:dataTableColumn value="#{lista.ingresosMensuales}" label="Ingreso Mensual"></b:dataTableColumn>                    
+                </b:dataTable>
+
+
+            </b:form>
+        </b:container>    
+
+
+
+    </ui:define> 
+</ui:composition>

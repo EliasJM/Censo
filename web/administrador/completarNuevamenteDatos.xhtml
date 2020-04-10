@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <b:container>
+            <h:form style="margin-top: 70px; ">
+                <b:messages></b:messages>
+                ¿Qué datos deseas completar?
+                <ol>
+                    <li><a href="integrantes.xhtml">Agregar Integrantes</a></li>
+                    <li><a href="familiasConEnfermedades.xhtml">Agregar enfermedades</a></li>
+                    <li><a href="estaFamiliaCultiva.xhtml">Agregar Productos que Cultivan</a></li>
+                    <li><a href="estaFamiliaNecesita.xhtml">Agregar Necesidades que sufre esta familia</a></li>
+                    <li><a href="viviendaModificar.xhtml">Completar Información de vivienda</a></li>
+                    
+                </ol>
+            </h:form>
+        </b:container>
+
+    </ui:define>
+</ui:composition>

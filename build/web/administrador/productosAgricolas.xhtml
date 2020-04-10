@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <b:container>
+            <h:form class="formCenter">
+                <center>
+                    <h3>
+                        Registro de Productos Agrícolas
+                    </h3>
+                </center>
+                <b:messages></b:messages>
+                <b:inputText value="#{productosAgricolasManagedBeans.productosAgricolas.nombre}" label="Nombre del producto agrícola"></b:inputText>
+                <h:commandButton class="btn btn-primary" action="#{productosAgricolasManagedBeans.insert()}" value="Guardar"></h:commandButton>
+            </h:form>
+        </b:container>
+        <b:container>
+            <h:form>
+                <b:dataTable value="#{productosAgricolasManagedBeans.listaProductosAgricolas}" var="producto"
+                             caption="Esta tabla contiene información de los productos agrícolas que se cultivan en este municipio">
+                    <b:dataTableColumn value="#{producto.nombre}" />                                        
+                    <b:dataTableColumn label="Acciones">               
+                        <b:commandButton onclick="$('.modalPseudoClass').modal()" value="Editar" action="#{productosAgricolasManagedBeans.setProductosAgricolas(producto)}" class="btn btn-success">
+                            <f:ajax  render="list:content" />
+                        </b:commandButton>                    
+                        <b:commandButton look="info" onclick="$('.modalPseudoClass2').modal()" value="Eliminar" action="#{productosAgricolasManagedBeans.setProductosAgricolas(producto)}">
+                            <f:ajax  render="list1:content1" />
+                        </b:commandButton>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+        <div>
+            <h:form id="list1">
+                <b:modal id="amodal1" title="Formulario para Eliminar Productos Agrícolas" styleClass="modalPseudoClass2">
+                    ¿Seguro que desea eliminar este Producto Agrícola?
+                    <b:panel id="content1">
+                        <h4><h:outputLabel value="#{productosAgricolasManagedBeans.productosAgricolas.nombre}"></h:outputLabel></h4>
+                    </b:panel>
+                    <b:commandButton class="btn btn-warning" value="Eliminar" action="#{productosAgricolasManagedBeans.eliminar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+            <h:form id="list">
+                <b:modal id="amodal" title="Formulario para Editar productos Agrícolas" styleClass="modalPseudoClass">
+                    Reescriba los datos a modificar.
+                    <b:panel id="content">
+                        <b:inputText value="#{productosAgricolasManagedBeans.productosAgricolas.nombre}" label="Nombre"></b:inputText>
+                    </b:panel>
+                    <b:commandButton class="btn btn-success" value="Editar" action="#{productosAgricolasManagedBeans.modificar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+
+        </div>
+    </ui:define> 
+</ui:composition>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <link rel="stylesheet" href="css/StyleFormsGlobals.css"/>
+        <b:container>            
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{entrevistadoMangedBeans.cargarDatosAgricolas()}"/>
+            </f:metadata>
+            <h:form style="margin-top: 100px;">
+                <b:messages></b:messages>
+                <h4>Formulario para agregar necesidades de familia que representa el entrevistado #{entrevistadoMangedBeans.entrevistado.nombre}</h4>
+                <b:selectOneMenu label="Tipo de Necesidad " value="#{entrevistadoMangedBeans.necesidades.codigoMaterialAyuda}" required="true" requiredMessage="Seleccione una opción">
+                    <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                    <f:selectItems value="#{materialAyudaManagedBeans.listaMaterialDeAyuda}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}"></f:selectItems>
+                </b:selectOneMenu>
+                <b:inputText value="#{entrevistadoMangedBeans.necesidades.cantidadPide}" label="Cantidad que esta persona pide:"></b:inputText>
+
+                <br></br>
+                <hr></hr>
+                <b:commandButton value="Guardar" class="btn btn-success" action="#{entrevistadoMangedBeans.insertNecesidadesFamilia()}"></b:commandButton>    
+            </h:form>
+            <h:form>
+                <b:dataTable value="#{entrevistadoMangedBeans.listarNecesidadesPorFamilia}" var="lista">
+                    <b:dataTableColumn value="#{lista.codigoEntrevistado.nombre}" label="Nombre del entrevistado"></b:dataTableColumn>
+                    <b:dataTableColumn value="#{lista.codigoMaterialAyuda.nombre}" label="Nombre de la necesidad"></b:dataTableColumn>
+                    <b:dataTableColumn value="#{lista.cantidadPide}" label="Cantidad que solicita"></b:dataTableColumn>                    
+                    <b:dataTableColumn label="Acciones">
+                        <b:commandButton onclick="$('.modalPseudoClass').modal()"  action="#{entrevistadoMangedBeans.setNecesidades(lista)}" class="btn btn-primary" value="Editar">
+                            <f:ajax  render="list:content" />
+                        </b:commandButton>
+                        <b:commandButton onclick="$('.modalPseudoClass2').modal()"  action="#{entrevistadoMangedBeans.setNecesidades(lista)}" class="btn btn-warning" value="Eliminar">
+                            <f:ajax  render="list1:content1" />
+                        </b:commandButton>
+
+                    </b:dataTableColumn>                    
+                </b:dataTable>
+            </h:form>
+            <h:form id="list1">
+                <b:modal id="amodal1" title="Formulario para Eliminar Fuentes de Ingreso" styleClass="modalPseudoClass2">
+                    ¿Seguro que desea eliminar este registro?
+                    <b:panel id="content1">
+                        <h4><h:outputLabel value="#{entrevistadoMangedBeans.necesidades.codigoMaterialAyuda.nombre}"></h:outputLabel></h4>
+                    </b:panel>
+                    <b:commandButton class="btn btn-warning" value="Eliminar" action="#{entrevistadoMangedBeans.eliminarNececidadesPorFamilia()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+            <h:form id="list">
+                <b:modal id="amodal" title="Formulario para Editar Fuentes de Ingreso" styleClass="modalPseudoClass">
+                    Reescriba los datos a modificar.
+                    <b:panel id="content">
+                        <b:messages></b:messages>                        
+                        <b:selectOneMenu label="Tipo de Necesidad " value="#{entrevistadoMangedBeans.necesidades.codigoMaterialAyuda}" required="true" requiredMessage="Seleccione una opción">
+                            <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                            <f:selectItems value="#{materialAyudaManagedBeans.listaMaterialDeAyuda}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}"></f:selectItems>
+                        </b:selectOneMenu>
+                        <b:inputText value="#{entrevistadoMangedBeans.necesidades.cantidadPide}" label="Cantidad que esta persona pide:"></b:inputText>
+
+                    </b:panel>
+                    <b:commandButton class="btn btn-success" value="Editar" action="#{entrevistadoMangedBeans.modificarNecesidadesFamilia()}"></b:commandButton>
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+
+        </b:container>
+
+
+    </ui:define>
+
+
+
+
+</ui:composition>
+

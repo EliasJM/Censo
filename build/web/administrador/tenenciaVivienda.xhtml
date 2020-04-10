@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="css/StyleFormsGlobals.css"/>
+    </h:head>
+    <h:body>
+        <h:form class="formulario">
+            <b:messages></b:messages>
+            <center>Formulario para Tenencia de vivienda</center>
+            <b:inputText value="#{tenenciaViviendaManagedBeans.tenencia.nombre}" label="nombre"></b:inputText>
+            <h:commandButton action="#{tenenciaViviendaManagedBeans.insert()}" value="Guardar"></h:commandButton>
+        </h:form>
+        <b:container>
+            <h:form>
+                <b:dataTable value="#{tenenciaViviendaManagedBeans.listaTenenciaVivienda}" var="lista"
+                             caption="Información referente a las tenencias de viviendas">
+                    <b:dataTableColumn value="#{lista.nombre}" />                                        
+                    <b:dataTableColumn label="Acciones">               
+                        <b:commandButton onclick="$('.modalPseudoClass').modal()" value="Editar" action="#{tenenciaViviendaManagedBeans.setTenencia(lista)}" class="btn btn-success">
+                            <f:ajax  render="list:content" />
+                        </b:commandButton>                    
+                        <b:commandButton look="info" onclick="$('.modalPseudoClass2').modal()" value="Eliminar" action="#{tenenciaViviendaManagedBeans.setTenencia(lista)}">
+                            <f:ajax  render="list1:content1" />
+                        </b:commandButton>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+        <div>
+            <h:form id="list1">
+                <b:modal id="amodal1" title="Formulario para Eliminar Tipo de Letrina" styleClass="modalPseudoClass2">
+                    ¿Seguro que desea eliminar este registro?
+                    <b:panel id="content1">
+                        <h4><h:outputLabel value="#{tenenciaViviendaManagedBeans.tenencia.nombre}"></h:outputLabel></h4>
+                    </b:panel>
+                    <b:commandButton class="btn btn-warning" value="Eliminar" action="#{tenenciaViviendaManagedBeans.eliminar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+                </h:form>
+                <h:form id="list">
+                <b:modal id="amodal" title="Formulario para Editar registros" styleClass="modalPseudoClass">
+                    Reescriba los registros.    
+                    <b:panel id="content">
+                        <b:inputText value="#{tenenciaViviendaManagedBeans.tenencia.nombre}" label="Nombre"></b:inputText>
+                    </b:panel>
+                    <b:commandButton class="btn btn-success" value="Editar" action="#{tenenciaViviendaManagedBeans.modificar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+
+        </div>
+    </h:body>
+</html>
+

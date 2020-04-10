@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <b:container>
+            <h:form class="formCenter">
+                <center>
+                    <h3>
+                        Registro de Cantones
+                    </h3>
+                </center>
+                <b:messages></b:messages>
+                <b:inputText value="#{cantonesManagedBeans.canton.codigo}" label="Codigo del Cantón"></b:inputText>                       
+                <b:inputText value="#{cantonesManagedBeans.canton.nombre}" requiredMessage="Formato de nombre de cantón no valido" required="true" label="Nombre del Cantón"></b:inputText>
+                <b:inputText value="#{cantonesManagedBeans.canton.descripcion}" label="Descripción" ></b:inputText>
+                <h:commandButton class="btn btn-primary" action="#{cantonesManagedBeans.insert()}" value="Guardar"></h:commandButton>
+            </h:form>
+        </b:container>
+        <b:container>
+            <h:form>
+                <b:dataTable value="#{cantonesManagedBeans.listaCantones}" var="cantones"
+                             caption="Esta tabla contiene información de los Cantonés de este municipio">
+                    <b:dataTableColumn value="#{cantones.codigo}" />
+                    <b:dataTableColumn value="#{cantones.nombre}" />
+                    <b:dataTableColumn value="#{cantones.descripcion}" />            
+                    <b:dataTableColumn>               
+                        <b:commandButton onclick="$('.modalPseudoClass').modal()" value="Editar" action="#{cantonesManagedBeans.setCanton(cantones)}" class="btn btn-success">
+                            <f:ajax  render="list:content" />
+                        </b:commandButton>                    
+                        <b:commandButton look="info" onclick="$('.modalPseudoClass2').modal()" value="Eliminar" action="#{cantonesManagedBeans.setCanton(cantones)}">
+                            <f:ajax  render="list1:content1" />
+                        </b:commandButton>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+        <div>
+            <h:form id="list1">
+                <b:modal id="amodal1" title="Formulario para Eliminar Cantón" styleClass="modalPseudoClass2">
+                    ¿Seguro que desea eliminar este Cantón?
+                    <b:panel id="content1">
+                        <h4><h:outputLabel value="#{cantonesManagedBeans.canton.nombre}"></h:outputLabel></h4>
+                    </b:panel>
+                    <b:commandButton class="btn btn-warning" value="Eliminar" action="#{cantonesManagedBeans.eliminar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+            <h:form id="list">                
+                <b:modal id="amodal" title="Formulario para Editar Cantón" styleClass="modalPseudoClass">
+                    Reescriba los datos a modificar.
+                    <b:panel id="content">                        
+                        <b:inputText value="#{cantonesManagedBeans.canton.nombre}" label="nombre"></b:inputText>
+                        <b:inputText value="#{cantonesManagedBeans.canton.descripcion}" label="Descripción"></b:inputText>
+                    </b:panel>
+                    <b:commandButton class="btn btn-primary" value="Editar" action="#{cantonesManagedBeans.modificar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+</ui:composition>
+
+
+
+
+

@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <div class="contenedor">
+            <h:form class="formulario" style="width: 80%; margin: auto; margin-top: 80px;">
+                <b:messages></b:messages>
+                <h3>
+                    <center>Formulario para el registro de Integrantes de: #{entrevistadoMangedBeans.entrevistado.nombre} persona entrevistada.</center>                    
+                </h3>
+                <div style="width: 79%; display: inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.integrantes.nombre}" label="Nombre del Integrantes" required="true" requiredMessage="Agrega un nombre valido"></b:inputText>                       
+                </div>
+                <div style="width: 20%; display: inline-block;">
+                    <b:selectOneMenu label="Parentesco" value="#{entrevistadoMangedBeans.integrantes.parentesco}" required="true" requiredMessage="Seleccione un parentesco con este integrante">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaParentesco}" var="parentesco" itemLabel="#{parentesco.nombre}" itemValue="#{parentesco}">
+                        </f:selectItems>
+                    </b:selectOneMenu>              
+                </div>
+                <div style="width: 24.5%; display: inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.integrantes.edad}" label="Edad"></b:inputText>                       
+                </div>
+                <div style="width: 24.5%; display: inline-block;">
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.integrantes.sexo}" label="Genero" required="true" requiredMessage="Seleccione un genero">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaSexo}" var="sexo" itemLabel="#{sexo.nombre}" itemValue="#{sexo}">
+
+                        </f:selectItems>
+                    </b:selectOneMenu>
+                </div>
+                <div style="width: 24.5%; display: inline-block;">
+                    <b:selectOneMenu label="Nivel académico" value="#{entrevistadoMangedBeans.integrantes.nivelAcademico}" required="true" requiredMessage="Seleccione un nivel académico" class="NIacademico">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaNivelesEducacion}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">
+                        </f:selectItems>
+                    </b:selectOneMenu>
+
+                </div>
+                <div style="width: 24.5%; display: inline-block;">
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.integrantes.desertoDelEstudio}" label="Dejo de estudiar" required="true" class="DJEstudiar" requiredMessage="Seleccione si dejo de estudiar">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">
+                        </f:selectItems>
+                    </b:selectOneMenu>
+                </div>
+                <b:inputText value="#{entrevistadoMangedBeans.integrantes.detalleDePDeserto}" label="¿Por qué ya no siguio sus estudios?"></b:inputText>                       
+                <div style="width: 33%; display: inline-block;">
+                    <b:selectOneMenu value="#{entrevistadoMangedBeans.integrantes.gustariaSeguirEstudiando}" label="Si le brindan el apoyo, le gustaría seguir estudiando" required="true" requiredMessage="Seleccione si le gustaria seguir estudiando" class="SLAGsEstudiando">
+                        <f:selectItem itemLabel="Seleccione una opción" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{radioManagedBeans.listaAplica}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">
+
+                        </f:selectItems>
+                    </b:selectOneMenu>
+                </div>
+                <div style="width: 33%; display: inline-block;">
+                    <b:selectOneMenu label="Profesión o Oficio" value="#{entrevistadoMangedBeans.integrantes.sePuedeDesempenar}" required="true" requiredMessage="Seleccione una profesión o oficio">
+                        <f:selectItem itemLabel="Seleccione una profesión o oficio" noSelectionOption="true"></f:selectItem>                                                    
+                        <f:selectItems value="#{profesionOficioManagedBeans.listaProfesionOficio}" var="profesion"
+                                       itemValue="#{profesion}" itemLabel="#{profesion.nombre}" />
+                    </b:selectOneMenu>    
+
+                </div>
+                <div style="width: 33%; display: inline-block;">
+                    <b:inputText value="#{entrevistadoMangedBeans.integrantes.ingresosMensuales}" label="Salario o ingresos mensuales"></b:inputText>                       
+                </div>
+                <hr></hr>
+                <h:outputLabel for="integranteEnfermedad" value="Enfermedades que padece esta familia" /><br></br>
+                <p:selectCheckboxMenu id="integranteEnfermedad" value="#{entrevistadoMangedBeans.stringForEnfermedadesIntegrantes}" label="Cities" multiple="true"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width:450px">
+
+                    <f:selectItems value="#{enfermedadesCronicasMangedBeans.listar}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista.codigo}"/>
+                </p:selectCheckboxMenu>
+                <br></br>
+                <hr></hr>
+
+                <h:commandButton action="#{entrevistadoMangedBeans.guardarIntegrantesYEnfermedades()}" class="btn btn-success" value="Guardar"></h:commandButton>
+            </h:form>            
+            <b:container>
+                <center>
+                    <b:panel>
+                        <a href="plantilla.xlsx">Descargar plantilla</a><a href="manual.pdf" target="_blank">Descargar Manual</a>
+                        <br></br>
+                        Cargar Plantilla en excel|| Modulo en desarrollo<br />
+                        <h:form enctype="multipart/form-data"> 
+                            <p:fileUpload value="#{entrevistadoMangedBeans.file}" allowTypes="/(\.|\/)(xls?x)$/" mode="simple" update="@parent" skinSimple="true" label="Cargar Plantilla" requiredMessage="Agrega algo" required="true"/>
+                            <br />
+                            <p:commandButton value="Enviar" ajax="false" update="@form" action="#{entrevistadoMangedBeans.cargarExcel()}"/>
+                        </h:form>
+                    </b:panel>
+                </center>
+                <b:form>
+                    <center>
+                        <h:commandButton action="#{entrevistadoMangedBeans.terminarProceso()}" class="btn btn-danger" value="Terminar este Proceso"></h:commandButton>
+                    </center>
+                </b:form>
+                <b:container>
+
+                    <b:panel>
+                        <center><h4>Detalles:</h4></center>                        
+                        <b:form>
+                            <b:row>
+                                <b:column col-lg="6">
+                                    <center>Esta familia recibe en sus ingresos Mensuales:<br></br>
+                                        <b>$<h:outputText value="#{entrevistadoMangedBeans.consultarIngresosPorFamilia[0]}"></h:outputText> dolares.</b> 
+                                    </center>
+                                </b:column>
+                                <b:column col-lg="3">
+                                    <center>Mayores de Edad:<br></br>
+                                        <b>Hay <h:outputText value="#{entrevistadoMangedBeans.consultarMayoresDeEdad[0]}"></h:outputText> personas.</b> 
+                                    </center>
+                                </b:column>
+                                <b:column col-lg="3">
+                                    <center>Menores de edad:<br></br>
+                                        <b> hay <h:outputText value="#{entrevistadoMangedBeans.consultarMenoresDeEdad[0]}"></h:outputText> personas.</b> 
+                                    </center>
+                                </b:column>                               
+                            </b:row>
+
+                        </b:form>
+                    </b:panel>
+                </b:container>
+            </b:container>
+        </div>
+        <b:form>
+            <b:dataTable value="#{entrevistadoMangedBeans.consultarIntegrantesPorEntrevistado()}" var="lista">
+                <b:dataTableColumn value="#{lista.nombre}"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.codigoEntrevistado.nombre}" label="Se entrevisto"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.parentesco.nombre}" label="Parentesco"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.edad}" label="Edad"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.sexo.nombre}" label="Sexo"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.nivelAcademico.nombre}" label="Nivel Academico"></b:dataTableColumn>  
+                <b:dataTableColumn label="Enfermedades que padece">
+                    <b:dataTable value="#{entrevistadoMangedBeans.getListarEnfermedadesPorIntegrante(lista)}" var="enfermedades">
+                        <b:dataTableColumn value="#{enfermedades.discapacidadEnfermedad.nombre}" label="Enfermedades que padece"></b:dataTableColumn>
+
+                    </b:dataTable>
+
+                </b:dataTableColumn>                
+                <b:dataTableColumn value="#{lista.desertoDelEstudio.nombre}" label="Deserto del Estudio"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.detalleDePDeserto}" label="Deserto porque"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.gustariaSeguirEstudiando.nombre}" label="Gustaria seguir estudiando"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.sePuedeDesempenar.nombre}" label="Se puede desempeñar"></b:dataTableColumn>    
+                <b:dataTableColumn value="#{lista.ingresosMensuales}" label="Ingreso Mensual"></b:dataTableColumn>                    
+                <b:dataTableColumn label="Acciones">
+                    <b:commandButton value="Editar" action="#{entrevistadoMangedBeans.setModIntegrante(lista)}" class="btn btn-success">
+
+                    </b:commandButton>  
+
+                    <b:commandButton onclick="$('.modalPseudoClass2').modal()" value="Eliminar" action="#{entrevistadoMangedBeans.setIntegrante(lista)}" class="btn btn-warning">
+                        <f:ajax  render="list1:content1" />
+                    </b:commandButton>                      
+                </b:dataTableColumn>    
+
+            </b:dataTable>
+
+
+        </b:form>
+
+        <h:form id="list1">
+            <b:modal id="amodal1" title="Formulario para Eliminar registros" styleClass="modalPseudoClass2">
+                ¿Seguro que desea eliminar este registros?
+                <b:panel id="content1">
+                    <h4><h:outputLabel value="#{entrevistadoMangedBeans.integrantes.nombre}"></h:outputLabel></h4>
+                </b:panel>
+                <b:commandButton class="btn btn-warning" value="Eliminar" action="#{entrevistadoMangedBeans.eliminarIntegrantes()}"></b:commandButton>
+
+                <f:facet name="footer">
+                    <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                </f:facet>
+            </b:modal>
+        </h:form>
+        <script type="text/javascript" src="js/control.js"></script>
+    </ui:define> 
+</ui:composition>
+
+

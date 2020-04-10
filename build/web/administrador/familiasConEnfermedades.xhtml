@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <link rel="stylesheet" href="css/StyleFormsGlobals.css"/>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{entrevistadoMangedBeans.cargarDatosEnfermedades()}"/>
+        </f:metadata>
+        <b:container>
+            <h:form style="margin-top: 100px;">
+            <h:outputLabel for="integranteEnfermedad" value="Enfermedades que padece esta familia" /><br></br>
+            <p:selectCheckboxMenu id="integranteEnfermedad" value="#{entrevistadoMangedBeans.stringForEnfermedadesFamilia}" label="Cities" multiple="true"
+                                  filter="true" filterMatchMode="startsWith" panelStyle="width:450px">
+                <f:selectItems value="#{enfermedadesCronicasMangedBeans.listar}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista.codigo}"/>
+            </p:selectCheckboxMenu>
+            <b:commandButton value="Guardar" class="btn btn-success" action="#{entrevistadoMangedBeans.guardarListaEnfermedadesFamilia()}"></b:commandButton>    
+        </h:form>
+        </b:container>
+
+        
+
+    </ui:define>
+
+
+
+
+
+</ui:composition>
+

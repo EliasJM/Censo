@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+
+        <b:container>
+            <h:form class="formCenter">
+                <center>
+                    <h3>
+                        Registro de Caseríos
+                    </h3>
+                </center>
+                <b:messages></b:messages>
+                <b:inputText value="#{caseriosmanagedbeans.caserio.codigoCorrelativo}" required="true" requiredMessage="Codigo de Caserío no es valido" label="Codigo del Caserío"></b:inputText>                       
+                <b:inputText value="#{caseriosmanagedbeans.caserio.nombre}" required="true" requiredMessage="Nombre del caserío no es valido" label="Nombre del Caserío"></b:inputText>
+                <b:inputText value="#{caseriosmanagedbeans.caserio.descripcion}" label="Descripción del Caserío" ></b:inputText>
+                <b:selectOneMenu value="#{caseriosmanagedbeans.caserio.codigoCanton.codigo}">
+                    <f:selectItems value="#{cantonesManagedBeans.listaCantones}" var="canton"
+                                   itemValue="#{canton.codigo}" itemLabel="#{canton.nombre}" />
+                </b:selectOneMenu>
+                <h:commandButton action="#{caseriosmanagedbeans.insert()}" class="btn btn-primary" value="Guardar"></h:commandButton>
+            </h:form>
+        </b:container>
+
+        <b:container>
+            <h:form>
+
+
+                <b:dataTable value="#{caseriosmanagedbeans.listaCaserio}" var="caserio"
+                             caption="Esta tabla contiene información de los caseríos de este municipio">
+                    <b:dataTableColumn value="#{caserio.codigoCorrelativo}" />
+                    <b:dataTableColumn value="#{caserio.nombre}" />
+                    <b:dataTableColumn label="Descripción" value="#{caserio.descripcion}" />            
+                    <b:dataTableColumn label="Pertenece al Cantón" value="#{caserio.codigoCanton.nombre}" />
+                    <b:dataTableColumn label="Acciones">               
+                        <b:commandButton onclick="$('.modalPseudoClass').modal()" value="Editar" action="#{caseriosmanagedbeans.setCaserio(caserio)}" class="btn btn-success">
+                            <f:ajax  render="list:content" />
+                        </b:commandButton>                    
+                        <b:commandButton look="info" onclick="$('.modalPseudoClass2').modal()" value="Eliminar" action="#{caseriosmanagedbeans.setCaserio(caserio)}">
+                            <f:ajax  render="list1:content1" />
+                        </b:commandButton>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+        <div>
+            <h:form id="list1">
+                <b:modal id="amodal1" title="Formulario para Eliminar Caseríos" styleClass="modalPseudoClass2">
+                    ¿Seguro que desea eliminar este Cantón?
+                    <b:panel id="content1">
+                        <h4><h:outputLabel value="#{caseriosmanagedbeans.caserio.nombre}"></h:outputLabel></h4>
+                    </b:panel>
+                    <b:commandButton class="btn btn-warning" value="Eliminar" action="#{caseriosmanagedbeans.eliminar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+            <h:form id="list">
+                <b:modal id="amodal" title="Formulario para Editar Canton" styleClass="modalPseudoClass">
+                    Reescriba los datos a modificar.
+                    <b:panel id="content">
+                        <b:inputText value="#{caseriosmanagedbeans.caserio.codigoCorrelativo}" label="Codigo"></b:inputText>
+                        <b:inputText value="#{caseriosmanagedbeans.caserio.nombre}" label="Nombre"></b:inputText>
+                        <b:inputText value="#{caseriosmanagedbeans.caserio.descripcion}" label="Descripción"></b:inputText>                        
+                        <b:selectOneMenu value="#{caseriosmanagedbeans.caserio.codigoCanton}">
+                            <f:selectItems value="#{cantonesManagedBeans.listaCantones}" var="canton"
+                                           itemValue="#{canton}" itemLabel="#{canton.nombre}"/>
+                        </b:selectOneMenu>
+                    </b:panel>
+                    <b:commandButton class="btn btn-success" value="Editar" action="#{caseriosmanagedbeans.modificar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+
+        </div>
+
+
+    </ui:define> 
+
+
+
+
+</ui:composition>
+
+

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaAlcalde.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">        
+        <b:container>
+            <div class="alert alert-primary" role="alert" style="margin-top: 100px;">
+                <center> <h3>Información referente a los detalles de personas entrevistadas</h3></center>
+            </div>
+        </b:container>
+        <b:form>
+            <b:dataTable value="#{entrevistadoMangedBeans.listarEntrevistados}" var="lista" custom-options="dom: 'lfrtiBp',buttons: ['colvis','copy','csv',{extend: 'excelHtml5'},{extend: 'pdfHtml5'},'print']">
+                <b:dataTableColumn value="#{lista.nombre}"></b:dataTableColumn>
+                <b:dataTableColumn value="#{lista.codigoEntrevista}" />                                        
+                <b:dataTableColumn value="#{lista.fecha}" />   
+                <b:dataTableColumn value="#{lista.dui}" label="DUI"/> 
+                <b:dataTableColumn value="#{lista.nit}" label="NIT"/>  
+                <b:dataTableColumn value="#{lista.telefono}" />   
+                <b:dataTableColumn value="#{lista.direccion}" label="Dirección"/>   
+                <b:dataTableColumn value="#{lista.codigoEstadoFamiliar.nombre}" label="Estado Familiar"/>   
+                <b:dataTableColumn value="#{lista.codigoProfesionOficio.nombre}" label="Profesión"/>                   
+                <b:dataTableColumn value="#{lista.codigoUsuario.nombre}" label="Lo registro en este sistema"/>   
+                <b:dataTableColumn value="#{lista.codigoNivelesEducacion.nombre}" label="Nivel de Educación"/>   
+                <b:dataTableColumn value="#{lista.poseeDiscapacidadFisica.nombre}" label="Posee discapacidad Fisica" />   
+                <b:dataTableColumn value="#{lista.recibeInsumoAgricolas.nombre}" label="Recibe insumos agríolas"/>   
+                <b:dataTableColumn value="#{lista.cantidadCultivan}" label="Cultivan"/>
+                <b:dataTableColumn value="#{lista.codigoCanton.nombre}" label="Cantón"/>   
+                <b:dataTableColumn value="#{lista.codigoCaserio.nombre}" label="Caserío"/>   
+                <b:dataTableColumn value="#{lista.fuenteDeIngreso.nombre}" label="Fuente de Ingreso" />   
+                <b:dataTableColumn value="#{lista.observaciones}" label="Observaciones"/>
+                <b:dataTableColumn value="#{lista.fechaRegistro}" label="Se registro"/>
+                <b:dataTableColumn label="Acciones">                    
+                    <center>
+                        <b:commandButton class="btn btn-info" value="Detalles Completos" action="#{entrevistadoMangedBeans.setMostrarDetalles(lista)}"></b:commandButton>                    
+                    </center>
+                    <b:panel rendered="#{lista.permisos != ''}">
+                        <center>Permisos Actuales: #{lista.permisos}</center>
+                        <b:commandButton value="Habilitar Permisos de edición" rendered="#{lista.permisos != 'edit'}" action="#{entrevistadoMangedBeans.habilitarPermisoEdicion(lista)}" class="btn btn-primary">                        
+                        </b:commandButton>
+                        <hr></hr>
+                        <b:commandButton value="Habilitar todos los Permisos" rendered="#{lista.permisos != 'todos'}" action="#{entrevistadoMangedBeans.habilitarTodosPermisos(lista)}" class="btn btn-primary">                        
+                        </b:commandButton>
+                        <b:commandButton value="Bloquear todos los Permisos" rendered="#{lista.permisos == 'todos' ||lista.permisos == 'edit'}" action="#{entrevistadoMangedBeans.bloquearTodosPermisos(lista)}" class="btn btn-warning">                        
+                        </b:commandButton>
+                    </b:panel>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </b:form>
+
+
+    </ui:define> 
+</ui:composition>

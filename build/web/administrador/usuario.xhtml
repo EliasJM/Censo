@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="../WEB-INF/plantillaboot.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="Cuerpo">
+        <b:container>
+            <h:form class="formulario" style="width: 50%; margin: auto;">
+                <center>
+                    <h3>
+                        Registro para usuarios
+                    </h3>
+                </center>
+                <b:messages></b:messages>                
+                <b:inputText value="#{usuarioManagedBeans.usuario.nombre}" required="true" requiredMessage="Agregue el un nombre" label="Nombre de Usuario"></b:inputText>
+                <b:inputText value="#{usuarioManagedBeans.usuario.email}" type="email" required="true" requiredMessage="Agregue el un correo electrónico" label="Email de Usuario"></b:inputText>
+                <b:inputText value="#{usuarioManagedBeans.usuario.descripcion}" label="Descripción referente a nuevo usuario" required="true" requiredMessage="Agregue una descripción"></b:inputText>
+                <b:inputSecret value="#{usuarioManagedBeans.usuario.contrasena}" label="Escriba una contraseña" required="true" requiredMessage="Agregue el una contraseña"></b:inputSecret>                
+                <b:selectOneMenu value="#{usuarioManagedBeans.usuario.codigoTipoUsuario}" label="Tipo de usuario" required="true" requiredMessage="Elige un tipo de usuario">
+                    <f:selectItem itemLabel="Seleccione un tipo de Usuario" noSelectionOption="true"></f:selectItem>
+                    <f:selectItems value="#{radioManagedBeans.listaTipoUsuario}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista}">
+                        
+                    </f:selectItems>
+                </b:selectOneMenu>
+                <h:commandButton action="#{usuarioManagedBeans.insert()}" value="Guardar Usuario"></h:commandButton>
+            </h:form>
+
+        </b:container>
+
+        <b:container>
+            <h:form>
+                <b:dataTable value="#{usuarioManagedBeans.listaUsuarios}" var="lista"
+                             caption="Esta tabla contiene información de los productos agrícolas que se cultivan en este municipio">
+                    <b:dataTableColumn value="#{lista.nombre}" />                                        
+                    <b:dataTableColumn value="#{lista.contrasena}" label="Contraseña" />                                        
+                    <b:dataTableColumn value="#{lista.descripcion}" label="Descripción"/>                                        
+                    <b:dataTableColumn value="#{lista.email}" label="Email"/>                                        
+                    <b:dataTableColumn value="#{lista.codigoTipoUsuario.nombre}" label="Tipo de Usuario"/>                                        
+                    <b:dataTableColumn label="Acciones">               
+                        <b:commandButton onclick="$('.modalPseudoClass').modal()" value="Editar" action="#{usuarioManagedBeans.setUsuario(lista)}" class="btn btn-success">
+                            <f:ajax  render="list:content" />
+                        </b:commandButton>                    
+                        <b:commandButton look="info" onclick="$('.modalPseudoClass2').modal()" value="Eliminar" action="#{usuarioManagedBeans.setUsuario(lista)}">
+                            <f:ajax  render="list1:content1" />
+                        </b:commandButton>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </h:form>
+        </b:container>
+        <div>
+            <h:form id="list1">
+                <b:modal id="amodal1" title="Formulario para Eliminar Usuarios" styleClass="modalPseudoClass2">
+                    ¿Seguro que desea eliminar este Usuario?
+                    <b:panel id="content1">
+                        <h4><h:outputLabel value="#{usuarioManagedBeans.usuario.nombre}"></h:outputLabel></h4>
+                    </b:panel>
+                    <b:commandButton class="btn btn-warning" value="Eliminar" action="#{usuarioManagedBeans.eliminar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+            <h:form id="list">
+                <b:modal id="amodal" title="Formulario para Editar Usuarios" styleClass="modalPseudoClass">
+                    Reescriba los datos a modificar.    
+                    <b:panel id="content">
+                        <b:messages></b:messages>
+                        <b:inputText value="#{usuarioManagedBeans.usuario.nombre}" required="true" requiredMessage="Agregue el un nombre" label="Nombre de Usuario"></b:inputText>
+                        <b:inputText value="#{usuarioManagedBeans.usuario.email}" type="email" required="true" requiredMessage="Agregue el un correo electrónico" label="Email de Usuario"></b:inputText>
+                        <b:inputText value="#{usuarioManagedBeans.usuario.descripcion}" label="Descripción referente a nuevo usuario" required="true" requiredMessage="Agregue una descripción"></b:inputText>
+                        <b:inputSecret value="#{usuarioManagedBeans.usuario.contrasena}" label="Escriba una contraseña" required="true" requiredMessage="Agregue el una contraseña"></b:inputSecret>                
+                    </b:panel>
+                    <b:commandButton class="btn btn-success" value="Editar" action="#{usuarioManagedBeans.modificar()}"></b:commandButton>
+
+                    <f:facet name="footer">
+                        <b:button value="Cancelar" dismiss="modal" class="btn btn-danger" />
+                    </f:facet>
+                </b:modal>
+            </h:form>
+        </div>
+    </ui:define> 
+</ui:composition>
+

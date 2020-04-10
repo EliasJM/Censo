@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" href="administrador/css/loginStyle.css"/>
+    </h:head>
+    <h:body>      
+        <b:container>
+            <div class="formdiv">
+                <h:form class="formLogin">
+                    <b:messages></b:messages>
+                    <br/>
+                    <h3>Iniciar Sesión</h3>
+                    <center>
+                        <img style="width: 150px; height: 150px; ba"  src="administrador/img/LogoAlcaldia.jpeg"></img>
+                    </center>
+                    <div class="inpLogin ">
+                        <b:inputText value="#{usuarioManagedBeans.usuario.email}" type="email" label="Ingrese su correo electrónico" placeholder="Ingrese su correo electrónico" required="true" requiredMessage="Ingrese un correo electrónico"></b:inputText>    
+                    </div>
+                    <div class="inpLogin ">
+                        <b:inputSecret value="#{usuarioManagedBeans.usuario.contrasena}" label="Contraseña" placeholder="Ingrese su contraseña" required="true" requiredMessage="Ingrese una contraseña"></b:inputSecret>    
+                    </div>
+                    <div class="inpLogin ">
+                        <b:commandButton class="btn btn-primary" action="#{usuarioManagedBeans.iniciarSesion()}" value="Iniciar Sesión"></b:commandButton>    
+                    </div>
+                    <br/>
+                </h:form>   
+                
+            </div>
+
+        </b:container>
+
+    </h:body>
+</html>
+
+

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alcaldía Municipal de Monte San Juan</title>
+        <link rel="shortcut icon" href="img/LogoAlcaldia.jpeg"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>        
+        <link href="css/index.css" rel="stylesheet"/>        
+    </h:head>
+    <h:body>
+        <noscript>
+            <div style="width: 50%; margin: auto; text-align: center;">
+                <h5>On Tour-Comprobando si javascript está habilitado</h5>
+                <div class="deshabilitado">
+
+                    Javascript está deshabilitado en su navegador web.<br />
+                    Por favor, para una mejor experiencia en el sitio,<br />
+                    <b><i>habilite javascript</i></b>.<br />
+                    <br />
+                    Para ver instrucciones para habilitar javascript<br />
+                    en su navegador, haga click 
+                    <a href="http://www.enable-javascript.com/es/" 
+                       target="_blank">aquí</a>.
+                </div>
+            </div> 
+        </noscript>
+        <c:choose>
+            <c:when test="#{session.getAttribute('codigoUsuario') == null }">
+                <div class="divSinPermisos">
+                    <h3>No cuentas con los permisos suficientes.</h3>
+                    <h4>Por favor inicia Sesión</h4>
+                    <br/>
+                    <img src="img/Shipping_Alert.png"></img>
+                    <h:form>
+                        <b:messages></b:messages>
+                        <a href="../">
+                            <input type="button" value="Iniciar Sesión"/>
+                        </a>
+                    </h:form>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <ui:insert name="cabezera">
+                    <b:navBar fixed="top" brand="Censo Municipal 2020" fluid="true">
+                        <b:navbarLinks>
+
+                            <b:navLink>
+                                <b:form><b:commandButton value="Persona Entrevistada" style="background-color: #5E9BD0; border: 1px solid #5E9BD0; color: white; " action="#{entrevistadoMangedBeans.terminarProceso()}"></b:commandButton>    </b:form>
+                            </b:navLink>                    
+                            <b:dropMenu value="Lugares">
+                                <b:navLink value="Cantones" href="cantones.xhtml"></b:navLink>
+                                <b:navLink value="Caseríos" href="caserios.xhtml"></b:navLink>
+                            </b:dropMenu>
+                            <b:navLink value="Enfermedades Crónicas" href="enfermedadesCronicas.xhtml"></b:navLink>
+                            <b:navLink value="Fuentes de Ingreso" href="fuentesdeIngreso.xhtml"></b:navLink>
+                        </b:navbarLinks>               
+                        <!-- Following line is needed for TBS 3.0.1 (panel content overflow issue) -->
+                        <b:navbarLinks pull="right"><b:navLink value="    " href="#"></b:navLink></b:navbarLinks>
+                        <b:navbarLinks pull="right" styleClass="hidden-xs">
+                            <b:dropMenu value="Otros Datos">
+                                <b:navLink value="Material para Vivienda" href="materialDeVivienda.xhtml"></b:navLink>
+                                <b:navLink value="Material para Ayudas" href="materialDeAyuda.xhtml"></b:navLink>
+                                <b:navLink value="Productos Agrícolas" href="productosAgricolas.xhtml"></b:navLink>                        
+                                <b:navLink value="Profesíon o Oficio" href="profesionOficio.xhtml"></b:navLink>
+                                <b:navLink value="Material para Techo" href="techo.xhtml"></b:navLink>
+                                <b:navLink value="Tipo de Letrina" href="tipoLetrina.xhtml"></b:navLink>
+                            </b:dropMenu>
+                            <c:choose>
+                                <c:when test="#{session.getAttribute('codigoTipoUsuario') == null}">
+                                    
+                                </c:when>
+                                <c:otherwise>
+                                    <b:dropMenu value="Administración">
+                                        <b:navLink value="Alcalde" href="panelAlcalde.xhtml"></b:navLink>
+                                        <b:navLink value="Empleado" href="personaEntrevista.xhtml"></b:navLink>                                        
+                                    </b:dropMenu>                                        
+                                </c:otherwise>
+                            </c:choose>  
+                        </b:navbarLinks>
+                    </b:navBar>
+
+                </ui:insert>
+
+                <ui:insert name="Cuerpo">
+
+                </ui:insert>
+            </c:otherwise>
+        </c:choose>
+
+        <ui:insert name="footer" >
+            <!-- 
+            <footer class="navbar navbar-bottom footerlig">
+
+            
+                <div class="footer-copyright text-center py-3">© 2020 Copyright:
+                    <h4>Alcaldía MUnicipal de Monte San Juan</h4>
+                </div>
+            
+
+            </footer>
+            -->
+
+        </ui:insert>
+    </h:body>
+</html>

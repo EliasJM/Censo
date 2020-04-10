@@ -1,0 +1,22 @@
+body{
+    background: #D5EBF0;
+}
+.formdiv{
+    width: 50%;
+    margin: auto;        
+    background: #8ED4E3;
+    background: white;
+    border-radius: 10px;
+    margin-top: 7%;
+    -webkit-box-shadow: -2px 0px 19px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 0px 19px -5px rgba(0,0,0,0.75);
+    box-shadow: -2px 0px 19px -5px rgba(0,0,0,0.75);
+}
+.formdiv h3{
+    text-align: center;
+}
+.inpLogin {
+    width: 70%;
+
+    margin: auto;
+}
