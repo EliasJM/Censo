@@ -20,6 +20,7 @@ import sv.com.alcaldiamontesanjuan.entities.FamiliasConEnfermedadesCronicas;
 import sv.com.alcaldiamontesanjuan.facades.EntrevistadoFacade;
 import sv.com.alcaldiamontesanjuan.facades.IntegrantesFacade;
 import sv.com.alcaldiamontesanjuan.facades.ViviendaFacade;
+import sv.com.alcaldiamontesanjuan.utils.ListaModelo;
 
 @ManagedBean
 @SessionScoped
@@ -64,20 +65,74 @@ public class graficosManagedBeans {
 
     @PostConstruct
     public void init() {
-        createBarModel();
-        createBarModelVivienda();
+        createBarModelEntrevistados();
         createBarModelIntegrantes();
+        createBarModelVivienda();
         vistaPies();
     }
 
+    public String getAndSetReportesIntegrantes() {
+        createBarModelIntegrantes();
+        vistaPies();
+        return "reportesIntegrantes.xhtml";
+    }
+
+    public String getAndSetReportesEntrevistados() {
+        createBarModelEntrevistados();
+        return "reportesEntrevistados.xhtml";
+    }
+
+    public String getAndSetReportesViviendas() {
+        createBarModelVivienda();
+        return "reportesDeVivienda.xhtml";
+    }
+
+    public List<ListaModelo> reportesEconomicos() {
+        List<ListaModelo> lista = new ArrayList<ListaModelo>();
+        ListaModelo model = new ListaModelo();
+        List<Object[]> listaObj1 = integrantesFacade.getConteoIngresosMenores100();
+        model.setNombre("Personas con Ingresos<100");        
+        int cantidad=Integer.parseInt(String.valueOf(listaObj1.get(0)));
+        model.setCantidad(cantidad);
+        lista.add(model);
+        
+        listaObj1 = integrantesFacade.getConteoIngresosMenores300yMayoresOIgualA100();
+        ListaModelo model2 = new ListaModelo();
+        model2.setNombre("Personas con Ingresos>=100 y <300");        
+        cantidad=Integer.parseInt(String.valueOf(listaObj1.get(0)));
+        model2.setCantidad(cantidad);
+        lista.add(model2);
+        ListaModelo model3 = new ListaModelo();
+        listaObj1 = integrantesFacade.getConteoPersonasIngresosMensualesMayoresOIgualA300();
+        model3.setNombre("Personas con Ingresos>=300");        
+        cantidad=Integer.parseInt(String.valueOf(listaObj1.get(0)));
+        model3.setCantidad(cantidad);
+        lista.add(model3);        
+        ListaModelo model4 = new ListaModelo();
+        listaObj1 = integrantesFacade.getConteoPersonasIngresosNULL();
+        model4.setNombre("Personas con sin ingresos");        
+        cantidad=Integer.parseInt(String.valueOf(listaObj1.get(0)));
+        model4.setCantidad(cantidad);
+        lista.add(model4);        
+        return lista;        
+    }
+
     private void vistaPies() {
-        model = new PieChartModel();
-        model.set("Brand 1", 540);
-        model.set("Brand 2", 325);
-        model.set("Brand 3", 702);
-        model.set("Brand 4", 421);
-        model.setTitle("Simple Pie");
-        model.setLegendPosition("w");
+        List<ListaModelo> lista=reportesEconomicos();
+        PieChartModel modeloLocal = new PieChartModel();
+        for(ListaModelo li: lista) {                     
+            
+            modeloLocal.set(li.getNombre(), li.getCantidad());                        
+            model=modeloLocal;
+            model.setTitle("Reporte de ingresos");        
+            model.setLegendPosition("w");
+            model.setShowDataLabels(true);
+            model.setMouseoverHighlight(true);
+            model.setShowDatatip(true);
+            
+                    
+        }       
+        
 
     }
 
@@ -208,7 +263,7 @@ public class graficosManagedBeans {
         return model;
     }
 
-    private void createBarModel() {
+    private void createBarModelEntrevistados() {
         barModel = initBarModelParaEnfermedades();
         barModel.setTitle("Reporte sobre Enfermedades");
         barModel.setLegendPosition("ne");

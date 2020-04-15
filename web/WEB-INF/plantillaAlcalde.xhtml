@@ -71,9 +71,10 @@
                             <b:navLink value="Solicitudes" href="detallesDeSolicitudes.xhtml"></b:navLink>                                                                                   
                             <b:navbarLinks pull="right" styleClass="hidden-xs">
                                 <b:dropMenu value="Reportes">
-                                    <b:navLink value="Reportes de Viviendas" href="reportesDeVivienda.xhtml"></b:navLink>                            
-                                    <b:navLink value="Reportes de Entrevistados" href="reportesEntrevistados.xhtml"></b:navLink>                            
-                                    <b:navLink value="Reportes de Integrantes" href="reportesIntegrantes.xhtml"></b:navLink>
+                                    
+                                    <b:navLink value="Reportes de Viviendas" href="#{graficosManagedBeans.andSetReportesViviendas}"></b:navLink>                            
+                                    <b:navLink value="Reportes de Entrevistados" href="#{graficosManagedBeans.andSetReportesEntrevistados}"></b:navLink>                            
+                                    <b:navLink value="Reportes de Integrantes" href="#{graficosManagedBeans.andSetReportesIntegrantes}"></b:navLink>
                                 </b:dropMenu>
                                 <c:choose>
                                     <c:when test="#{session.getAttribute('codigoTipoUsuario') == null}">
@@ -81,8 +82,9 @@
                                     </c:when>
                                     <c:otherwise>
                                         <b:dropMenu value="Administración">
-                                            <b:navLink value="Alcalde" href="panelAlcalde.xhtml"></b:navLink>
-                                            <b:navLink value="Empleado" href="personaEntrevista.xhtml"></b:navLink>                                        
+                                            <b:navLink value="Panel Alcalde" href="panelAlcalde.xhtml"></b:navLink>
+                                            <b:navLink value="Panel Empleado" href="personaEntrevista.xhtml"></b:navLink>                                        
+                                            <b:navLink value="Control Usuarios" href="usuarios.xhtml"></b:navLink>                                        
                                         </b:dropMenu>                                        
                                     </c:otherwise>
                                 </c:choose>

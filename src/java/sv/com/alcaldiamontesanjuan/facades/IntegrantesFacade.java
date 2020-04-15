@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sv.com.alcaldiamontesanjuan.facades;
 
 import java.util.ArrayList;
@@ -116,6 +111,15 @@ public class IntegrantesFacade extends AbstractFacade<Integrantes> {
         Query query = em.createQuery("SELECT COUNT(i) FROM Integrantes i WHERE i.ingresosMensuales<100");
         try {
             //lista=query.getResultList();
+            List<Object[]> objs = query.getResultList();
+            return objs;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    public List<Object[]> getConteoPersonasIngresosNULL() {        
+        Query query = em.createQuery("SELECT COUNT(i) FROM Integrantes i WHERE i.ingresosMensuales is null");
+        try {            
             List<Object[]> objs = query.getResultList();
             return objs;
         } catch (NoResultException e) {

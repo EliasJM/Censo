@@ -12,16 +12,26 @@
         <b:container>
             <div class="alert alert-primary" role="alert" style="margin-top: 70px;">
                 <center> <h3>Graficas de los integrantes a Nivel Municipal</h3></center>
-            </div>            
-            <p:chart type = "bar" model = "#{graficosManagedBeans.barModelPersonasDejaronEstudiar}" style = "height: 300px" />
-            <p:chart type = "bar" model = "#{graficosManagedBeans.barModelPersonasGustariaSegirEstudiando}" style = "height: 300px" />
-            <p:chart type = "bar" model = "#{graficosManagedBeans.barModelPersonasDejaronEstudiar}" style = "height: 300px" />
+            </div>  
+            <div style="width: 33%; display: inline-block">
+                <p:chart type = "bar" model = "#{graficosManagedBeans.barModelPersonasDejaronEstudiar}" style = "height: 300px" />    
+            </div>
+            <div style="width: 33%; display: inline-block">
+                <p:chart type = "bar" model = "#{graficosManagedBeans.barModelPersonasGustariaSegirEstudiando}" style = "height: 300px" />
+            </div>
+            <div style="width: 33%; display: inline-block">
+                <p:chart type = "bar" model = "#{graficosManagedBeans.barModelPersonasDejaronEstudiar}" style = "height: 300px" />
+            </div>
+            
+            
+            
             <p:chart type = "bar" model = "#{graficosManagedBeans.barModelProfesionMasElegida}" style = "height: 300px" />
             <p:chart type = "bar" model = "#{graficosManagedBeans.barModelEnfermedadesMasFrecuentes}" style = "height: 300px" />
             <p:chart type = "bar" model = "#{graficosManagedBeans.barModelIntegrantesNivelEducacion}" style = "height: 300px" />
             <p:chart type="pie" model="#{graficosManagedBeans.model}" />
-            
-            
+            <b:form>
+                <b:commandButton value="Ver " action="#{graficosManagedBeans.reportesEconomicos()}"></b:commandButton>
+            </b:form>
         </b:container>
 
     </ui:define> 

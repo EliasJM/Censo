@@ -611,26 +611,25 @@ public class entrevistadoMangedBeans {
     public String insert() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         String codigoEntrevista = "";
-        codigoEntrevista = getEntrevistado().getCodigoCanton().getCodigo() + "-" + getEntrevistado().getCodigoCaserio().getCodigoCorrelativo() + "-" + getEntrevistado().getCodigoEntrevista();
-        Entrevistado tmpControl = entrevistadoFacade.getEntrevistadoPorFicha(codigoEntrevista);
+        //Crea una codigo de ficha con el codigo del cantón y caserío
+        codigoEntrevista = getEntrevistado().getCodigoCanton().getCodigo() + "-" + getEntrevistado().getCodigoCaserio().getCodigoCorrelativo() + "-" + getEntrevistado().getCodigoEntrevista();        
+        Entrevistado tmpControl = entrevistadoFacade.getEntrevistadoPorFicha(codigoEntrevista);//verifica si la ficha existe en la base de datos
         if (tmpControl == null) {
             int codigo = 0;
             do {
                 codigo = (int) (Math.random() * (1999999999 - 1 + 1) + 1);
-                getEntrevistado().setId(String.valueOf(codigo));
+                getEntrevistado().setId(String.valueOf(codigo));//genera una llave random
             } while (entrevistadoFacade.find(String.valueOf(codigo)) != null);
             if (entrevistadoFacade.find(getEntrevistado().getId()) == null) {
-                try {
-                    Entrevistado entr = new Entrevistado();
-                    entr = getEntrevistado();
+                try {                    
+                    //se ejecuta cuando no existe la llave primaria en la BD
                     entrevistado.getRecibioAyudaAsusNecesidades().setCodigo("2");
                     java.util.Date fecha = new Date();
                     entrevistado.setFechaRegistro(fecha);
                     getEntrevistado().setCodigoEntrevista(codigoEntrevista);
                     HttpSession session = SessionUtils.getSession();
-                    entr.setId(String.valueOf(codigo));
-                    entrevistadoFacade.create(entr);
-
+                    getEntrevistado().setId(String.valueOf(codigo));
+                    entrevistadoFacade.create(getEntrevistado());//se agrega a la base de datos datos del entrevistado                    
                     getIntegrantes().setNombre(getEntrevistado().getNombre());
                     getIntegrantes().setNivelAcademico(getEntrevistado().getCodigoNivelesEducacion());
                     getIntegrantes().setCodigoEntrevistado(getEntrevistado());
@@ -647,7 +646,6 @@ public class entrevistadoMangedBeans {
                             guardarListaEnfermedadesPorFamilia();
                             //aquí
                             guardarListaProductosAgricolasPorFamilia();
-
                             //aquí
                             reiniciarValoresIntegrantes();
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrevistado guardo con exito", null));
@@ -663,8 +661,6 @@ public class entrevistadoMangedBeans {
                 } catch (EJBException e) {
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error abortado!! " + e.getMessage() + ". Intente nuevamente, si el problema persiste reinicie los campos.", null));
                 }
-            } else {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Entrevistado no se puede guardar. Modifique el codigo " + getEntrevistado().getId() + " para poder guardar", null));
             }
         } else {//difrente de null
             if (getEntrevistado().getId() == null) {
@@ -675,13 +671,7 @@ public class entrevistadoMangedBeans {
                     reiniciarValores();
                     context.getExternalContext().redirect("personaEntrevista.xhtml");
 
-                } else {
-                    entrevistadoFacade.edit(getEntrevistado());
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrevistado modificado con Exito", null));
-                    reiniciarValores();
-                    context.getExternalContext().redirect("personaEntrevista.xhtml");
-
-                }
+                } 
             }
 
         }
